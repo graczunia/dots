@@ -7,3 +7,4 @@ dotfiles
 - bspwm
 - sxhkd
 - compton
+- dunst

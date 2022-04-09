@@ -2,8 +2,8 @@
 dotfiles
 - arch
 - zsh
-- xst (own st patch in the future)
-- vim (nvim in the future)
+- xst
+- nvim
 - bspwm
 - sxhkd
 - compton

@@ -14,7 +14,7 @@ super + d
 
 # make sxhkd reload its configuration files:
 super + Escape
-	pkill -USR1 -x sxhkd
+	pkill -USR1 -x sxhkd & notify-send "reloaded sxhkd" 
 
 #
 # bspwm hotkeys
@@ -131,14 +131,18 @@ XF86MonBrightness{Up,Down}
 	xbacklight -{inc,dec} 10
 
 # screenshots
-Print + {_,shift}
-	scrot '%F-%X_screenshot_$wx$h.png' -q 100 -e {'mv $f ~/Pictures/Screenshots','mv $f /tmp/ && xclip -selection c -t image/png < $f'} 
+Print + {_,super}
+	scrot '%F-%X_screenshot_$wx$h.png' -q 100 -e {'mv $f ~/pics/scr && notify-send "screenshot to scr"' , 'mv $f /tmp/ && xclip -selection c -t image/png < /tmp/$f && notify-send "screenshot to clip"'} 
 
-alt + Print + {_,shift}
-	scrot -u '%F-%X_screenshot_$wx$h.png' -q 100 -e {'mv $f ~/Pictures/Screenshots','mv $f /tmp/ && xclip -selection c -t image/png < $f'}
 
-ctrl + Print + {_,shift}
-	sleep 0.2 && scrot -s -f '%F-%T_screenshot_$wx$h.png' -q 100 -e {'mv $f ~/Pictures/Screenshots','mv $f /tmp/ && xclip -selection c -t image/png < $f'}
+alt + Print + {_,super}
+	scrot -u '%F-%X_screenshot_$wx$h.png' -q 100 -e {'mv $f ~/pics/scr && notify-send "screenshot to scr"' , 'mv $f /tmp/ && xclip -selection c -t image/png < /tmp/$f && notify-send "screenshot to clip"'} 
+	#scrot -u '%F-%X_screenshot_$wx$h.png' -q 100 -e {'mv $f /tmp/ && xclip -selection c -t image/png < $f'}
+
+ctrl + Print + {_,super}
+	sleep 0.2 && scrot -s -f '%F-%X_screenshot_$wx$h.png' -q 100 -e {'mv $f ~/pics/scr && notify-send "screenshot to scr"' , 'mv $f /tmp/ && xclip -selection c -t image/png < /tmp/$f && notify-send "screenshot to clip"'} 
+	#sleep 0.2 && scrot -s -f '%F-%T_screenshot_$wx$h.png' -q 100 -e {'mv $f /tmp/ && xclip -selection c -t image/png < $f'}
+
 
 # pulseaudio
 XF86AudioRaiseVolume
@@ -150,3 +154,11 @@ XF86AudioLowerVolume
 XF86AudioMute
 	pactl set-sink-mute @DEFAULT_SINK@ toggle
 
+# XF86AudioMicMute
+
+# XF86Calculator
+
+XF86PowerOff
+	cmatrix
+#XF86PowerOff
+#	[ choice = $(echo -e "Shutdown\nReboot" | dmenu -i); case $choice in;  Shutdown); shutdown -h now;; Reboot); reboot;; esac ]

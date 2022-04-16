@@ -5,8 +5,9 @@ sxhkd &
 xrdb -load ~/.Xresources &
 xsetroot -cursor_name left_ptr &
 start-pulseaudio-x11 &
-#feh --bg-fill /home/gracz/Pictures/Wallpapers/mike-kononov-lFv0V3_2H6s-unsplash.jpg &
-feh --bg-fill /home/gracz/Pictures/Wallpapers/spirited_crow.jpg &
+#feh --bg-fill
+feh --bg-fill /home/gracz/pics/wall/wall &
+#~/.config/polybar/launch.sh &
 ~/.config/polybar/launch.sh &
 ~/.config/compton.sh &
 dunst &

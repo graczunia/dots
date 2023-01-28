@@ -1,0 +1,1 @@
+/home/graczunia/.config/shell/profile

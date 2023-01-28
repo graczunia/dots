@@ -1,0 +1,25 @@
+#!/usr/bin/env zsh
+
+# gracz profile
+# 28 jan 2023 - clean rewrite
+
+# add .local/bin to path
+if [ -d "$HOME/.local/bin" ] ; then
+	PATH="$HOME/.local/bin:$PATH"
+fi
+
+# defaults
+export EDITOR="nvim"
+export TERMINAL="xst"
+export TERM="xst-256color"
+export BROWSER="chromium"
+
+# cleanup
+export XDG_CONFIG_HOME="$HOME/.config"
+export XDG_CONFIG_CACHE="$HOME/.cache"
+export XDG_CONFIG_DATA="$HOME/.local/share"
+export INPUTRC="$XDG_CONFIG_HOME/shell/inputrc"
+export ZDOTDIR="$XDG_CONFIG_HOME/zsh"
+export TMUX_TMPDIR="$XDG_RUNTIME_DIR"
+
+[ "$(tty)" = "/dev/tty1" ] && ! pidof -s Xorg >/dev/null 2>&1 && exec startx

@@ -5,4 +5,4 @@ exec >/tmp/startx$$.log 2>&1
 
 setxkbmap pl
 
-exec bspwm
+exec dbus-run-session bspwm

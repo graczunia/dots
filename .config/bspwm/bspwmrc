@@ -1,16 +1,16 @@
 #! /bin/sh
 
-sxhkd &
+pgrep -x sxhkd || sxhkd &
 
 xrdb -load ~/.Xresources &
 xsetroot -cursor_name left_ptr &
-#start-pulseaudio-x11 &
+pipewire &
 feh --bg-fill --no-fehbg $HOME/pics/wall/wall &
 #~/.config/polybar/launch.sh &
 pgrep -x polybar || $HOME/.config/polybar/launch.sh &
 $HOME/.config/compton.sh &
 dunst &
-pgrep -x Discord || discord &
+pgrep -x Discord || Discord &
 #pgrep -x spotify || spotify &
 
 bspc monitor -d I II III IV V VI VII VIII IX X

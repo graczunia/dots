@@ -16,7 +16,16 @@ autoload -Uz compinit
 zstyle ':completion:*' menu select
 zstyle ':completion:*' matcher-list 'm:{a-zA-Z}={A-Za-z}'
 zmodload zsh/complist
-compinit
+
+#for dump $ZDOTDIR/.zcompdump(N.mh+24); do
+#	compinit
+#done
+
+if [[ -n ${ZDOTDIR}/.zcompdump(#qN.mh+24) ]]; then
+	compinit
+else
+	compinit -C
+fi
 _comp_options+=(globdots)
 
 alias ls='ls --color=auto'

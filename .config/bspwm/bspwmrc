@@ -6,12 +6,9 @@ xrdb -load ~/.Xresources &
 xsetroot -cursor_name left_ptr &
 pipewire &
 feh --bg-fill --no-fehbg $HOME/pics/wall/wall &
-#~/.config/polybar/launch.sh &
 pgrep -x polybar || $HOME/.config/polybar/launch.sh &
-$HOME/.config/compton.sh &
+picom --config ~/.config/picom/picom.sample.conf &
 dunst &
-pgrep -x Discord || Discord &
-#pgrep -x spotify || spotify &
 
 bspc monitor -d I II III IV V VI VII VIII IX X
 
@@ -25,3 +22,5 @@ bspc config gapless_monocle      true
 bspc rule -a discord desktop=^6
 bspc rule -a spotify desktop=^7
 
+pgrep -x Discord || Discord &
+#pgrep -x spotify || spotify &

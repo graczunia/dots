@@ -122,43 +122,65 @@ super + alt + shift + {h,j,k,l}
 super + {Left,Down,Up,Right}
 	bspc node -v {-20 0,0 20,0 -20,20 0}
 
+# increase/decrease gaps globally/on current workspace
+#	super + {_,shift + }{minus,equal}
+#	bspc config {,-d focused} window_gap $(($(bspc config window_gap){-,+}5))
+#super + shift + {minus, equal}
+#    { bspc config window_gap $(( $(bspc config -m focused window_gap) + 10 )), \
+#    [ $(bspc config -m focused window_gap) -ge 5 ] && \
+#    bspc config -d focused window_gap $(( $(bspc config -m focused window_gap) - 5 )) }
+
+# change inner gaps on current desktop/monitor
+super + shift + {minus, equal}
+	{ bspc config -m focused window_gap $(( $(bspc config -m focused window_gap) + 5 )), \
+	[ $(bspc config -m focused window_gap) -ge 5 ] && \
+	bspc config -m focused window_gap $(( $(bspc config -m focused window_gap) - 5 )) }
+
+super + {minus, equal}
+	{ bspc config -d focused window_gap $(( $(bspc config -d focused window_gap) + 5 )), \
+	[ $(bspc config -d focused window_gap) -ge 5 ] && \
+	bspc config -d focused window_gap $(( $(bspc config -d focused window_gap) - 5 )) }
+    
+
+# increase/decrease gaps on current workspace/monitor
+super + {_,shift + }BackSpace
+	bspc config -{d,m} focused window_gap $(bspc config window_gap)
+
 #
 # non-wm keybinds
 #
 
-# brightness
+# brightness up/down
 XF86MonBrightness{Up,Down}
 	xbacklight -{inc,dec} 10
 
-# screenshots
-Print + {_,super}
-	scrot '%F-%X_screenshot_$wx$h.png' -q 100 -e {'mv $f ~/pics/scr && notify-send "screenshot to scr"' , 'mv $f /tmp/ && xclip -selection c -t image/png < /tmp/$f && notify-send "screenshot to clip"'} 
+# media keys
 
+# volume up/down
+XF86Audio{Raise,Lower}Volume
+	wpctl set-volume @DEFAULT_AUDIO_SINK@ 5%{+,-}
 
-alt + Print + {_,super}
-	scrot -u '%F-%X_screenshot_$wx$h.png' -q 100 -e {'mv $f ~/pics/scr && notify-send "screenshot to scr"' , 'mv $f /tmp/ && xclip -selection c -t image/png < /tmp/$f && notify-send "screenshot to clip"'} 
-	#scrot -u '%F-%X_screenshot_$wx$h.png' -q 100 -e {'mv $f /tmp/ && xclip -selection c -t image/png < $f'}
-
-ctrl + Print + {_,super}
-	sleep 0.2 && scrot -s -f '%F-%X_screenshot_$wx$h.png' -q 100 -e {'mv $f ~/pics/scr && notify-send "screenshot to scr"' , 'mv $f /tmp/ && xclip -selection c -t image/png < /tmp/$f && notify-send "screenshot to clip"'} 
-	#sleep 0.2 && scrot -s -f '%F-%T_screenshot_$wx$h.png' -q 100 -e {'mv $f /tmp/ && xclip -selection c -t image/png < $f'}
-
-
-# pulseaudio
-XF86AudioRaiseVolume
-	pulseaudio-ctl full-status | sed "s/[^0-9]//g" | grep 100 || pactl set-sink-volume @DEFAULT_SINK@ +5%
-
-XF86AudioLowerVolume
-	pactl set-sink-volume @DEFAULT_SINK@ -5%
-
+# mute
 XF86AudioMute
-	pactl set-sink-mute @DEFAULT_SINK@ toggle
+	wpctl set-mute @DEFAULT_AUDIO_SINK@ toggle
 
-# XF86AudioMicMute
+# screenshots
 
-# XF86Calculator
+# fullscreen
+Print + {_,super}
+	maim --format png -m 7 {"/tmp/$(date +%F_%T)" && mv "$_" ~/pics/scr/$(basename "$_")_screenshot_$(identify -format %wx%h "$_").png && notify-send "screenshot to scr", | xclip -selection c -t image/png && notify-send "screenshot to clip"}
 
-XF86PowerOff
-	cmatrix
+# window
+alt + Print + {_,super}
+	maim -i $(xdotool getactivewindow) -B --quiet --format png -m 7 {"/tmp/$(date +%F_%T)" && mv "$_" ~/pics/scr/$(basename "$_")_screenshot_$(identify -format %wx%h "$_").png && notify-send "screenshot to scr", | xclip -selection c -t image/png && notify-send "screenshot to clip"}
+
+# snippet
+ctrl + Print + {_,super}
+	maim -souk --format png -m 7 {"/tmp/$(date +%F_%T)" && mv "$_" ~/pics/scr/$(basename "$_")_screenshot_$(identify -format %wx%h "$_").png && notify-send "screenshot to scr", | xclip -selection c -t image/png && notify-send "screenshot to clip"}
+
+# lock
+super + XF86Calculator
+	slock
+
 #XF86PowerOff
 #	[ choice = $(echo -e "Shutdown\nReboot" | dmenu -i); case $choice in;  Shutdown); shutdown -h now;; Reboot); reboot;; esac ]
